@@ -3,36 +3,43 @@ pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract Codyfighters is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burnable {
+contract Codyfighters is ERC721, ERC721Enumerable, ERC721Burnable, Pausable, AccessControlEnumerable {
     using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIdCounter;
+    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     string private _baseTokenURI;
+    Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("Codyfighters", "CFIGHTERS") {}
+    constructor() ERC721("Codyfighters", "CFIGHTERS") {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(PAUSER_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, msg.sender);
+        changeBaseURI("https://nft.codyfight.com/api/skin/");
+    }
 
     function _baseURI() internal view override returns (string memory) {
         return _baseTokenURI;
     }
 
-    function changeBaseURI(string memory baseURI) public onlyOwner {
+    function changeBaseURI(string memory baseURI) public onlyRole(DEFAULT_ADMIN_ROLE) {
         _baseTokenURI = baseURI;
     }
 
-    function pause() public onlyOwner {
+    function pause() public onlyRole(PAUSER_ROLE) {
         _pause();
     }
 
-    function unpause() public onlyOwner {
+    function unpause() public onlyRole(PAUSER_ROLE) {
         _unpause();
     }
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to) public onlyRole(MINTER_ROLE) {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
@@ -51,7 +58,7 @@ contract Codyfighters is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721Burn
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721Enumerable)
+        override(ERC721, ERC721Enumerable, AccessControlEnumerable)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
