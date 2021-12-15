@@ -45,6 +45,13 @@ contract Codyfighters is ERC721, ERC721Enumerable, ERC721Burnable, Pausable, Acc
         _safeMint(to, tokenId);
     }
 
+    function safeMintBatch(address to, uint8 quantity) external onlyRole(MINTER_ROLE) {
+        require(quantity <= 100, "Quantity exceeds maximum limit");
+        for(uint256 i; i < quantity; i++) {
+            safeMint(to);
+        }
+    }
+
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
         whenNotPaused
