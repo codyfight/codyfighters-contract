@@ -60,6 +60,10 @@ contract Codyfighters is ERC721, ERC721Enumerable, ERC721Burnable, Pausable, Acc
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
+    function mintedTokensCount() public view returns (uint256) {
+        return _tokenIdCounter.current();
+    }
+
     // The following functions are overrides required by Solidity.
 
     function supportsInterface(bytes4 interfaceId)
