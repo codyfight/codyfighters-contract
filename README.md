@@ -1,6 +1,7 @@
 # codyfighters-contract
 
 Codyfight is a competitive turn-based strategy RPG that can be compared to a chess game for programmers.
+Get to know more about Codyfight blockchain assets at: https://codyfight.com/blockchain
 
 ## Authorization service
 
