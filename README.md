@@ -55,4 +55,5 @@ Smart contract based service, that handles players CGadgets opening which result
 
 # Codyfight Infrastructure
 
-![Alt text](<Codyfight Architecture.png>)
+![Codyfight Infrastructure](https://github.com/codyfight/codyfighters-contract/assets/47956560/f35f7bc9-ffcb-4a7c-833b-a201c9317593)
+
