@@ -40,8 +40,7 @@ CKeys types:
 
 Native.Only one per player.
 Permanent.Exceptional rewards.
-Subscription.Changing metadata via our blockchain API to extend validity time.
-Flex.As rewards with custom properties: codyfighter access, CTOK, etc. => mini gifts.
+Flex.Changing metadata via our blockchain API to extend validity time.
 
 - First one's free
 
